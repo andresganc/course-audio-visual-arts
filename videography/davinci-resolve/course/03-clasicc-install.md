@@ -22,9 +22,7 @@
     : sudo SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_20.3.1_Linux.run -i
 
 
-## LINUX UBUNTU MAKERESOLVEDEB (Alternativa recomendada) 
 
-- Muchos usuarios de Ubuntu prefieren usar la herramienta Makeresolvedeb, que convierte el instalador oficial en un archivo .deb estándar. Esto maneja automáticamente las dependencias y permite desinstalar el programa fácilmente desde el centro de software. 
-¿Deseas ayuda para usar Makeresolvedeb o prefieres continuar con el método del instalador oficial?
+
 
 

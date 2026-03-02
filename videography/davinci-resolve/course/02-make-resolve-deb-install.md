@@ -8,7 +8,8 @@
 
 https://www.danieltufvesson.com/makeresolvedeb
 
-How it works
+
+## How it works
 
 When you download Resolve or Resolve Studio for Linux you will get an installer made for the Rocky Linux / CentOS / RHEL system described in the Resolve configuration guide. That is the only officially supported configuration.
 
@@ -37,9 +38,9 @@ Unpack downloaded archives
 From now on it's easiest to continue in the terminal. Open up a new terminal window and go to the directory where you downloaded the Resolve installer and MakeResolveDeb and unpack both archives.
 
 For example:
-cd ~/resolvedeb
-unzip DaVinci_Resolve_Studio_19_Linux.zip
-tar zxvf makeresolvedeb_1.7.2_multi.sh.tar.gz
+    : cd ~/resolvedeb
+    : unzip DaVinci_Resolve_Studio_19_Linux.zip
+    : tar zxvf makeresolvedeb_1.7.2_multi.sh.tar.gz
 
 You should now have the following files in the directory:
 DaVinci_Resolve_Studio_19_Linux.run
@@ -47,18 +48,22 @@ DaVinci_Resolve_Studio_19_Linux.zip
 Linux_Installation_Instructions.pdf
 makeresolvedeb_1.7.2_multi.sh.tar.gz
 makeresolvedeb_1.7.2_multi.sh
-Run MakeResolveDeb
+    
+    : Run MakeResolveDeb
 
 When you have unpacked the archives and have all the needed files in the directory it's time to assemble the new *.deb file using MakeResolveDeb. First install required packages.
 sudo apt-get install fakeroot
 
 For Resolve 15.x you also need xorriso:
-sudo apt-get install xorriso
+    
+    : sudo apt-get install xorriso
 
 The current version of MakeResolveDeb works for both Resolve and Resolve Studio. MakeResolveDeb will detect the Resolve variant in the archive and generate the appropriate Debian package. Run MakeResolveDeb and give the DaVinci Resolve installer *.run archive file name as the only argument.
 
 For example:
-./makeresolvedeb_1.7.2_multi.sh DaVinci_Resolve_Studio_19_Linux.run
+    
+    : ./makeresolvedeb_1.7.2_multi.sh DaVinci_Resolve_Studio_19_Linux.run
+
 
 The conversion can take a few minutes depending on computer and storage performance. If there are errors during the process it will be displayed on the terminal. A successful conversion is indicated by the last line saying "[DONE]" and the reported number of errors 0.
 
@@ -68,11 +73,16 @@ Installing the Debian package
 A successful conversion generates a *.deb file that can be installed to your system. To install Resolve you can use dpkg.
 
 For example:
-sudo dpkg -i davinci-resolve-studio_19-mrd1.7.2_amd64.deb
+    
+    : sudo dpkg -i davinci-resolve-studio_19-mrd1.7.2_amd64.deb
 
 or
-sudo dpkg -i davinci-resolve_19-mrd1.7.2_amd64.deb
-DaVinci USB devices
+
+    : sudo dpkg -i davinci-resolve_19-mrd1.7.2_amd64.deb
+
+
+
+## DaVinci USB devices
 
 If you have any DaVinci USB devices connected during the install you need to disconnect and reconnect them after the install completes in order for them to work properly. This includes license dongle, Editor Keyboard, Speed Editor and Micro/Mini Panel.
 Installing the appropriate GPU drivers
@@ -81,7 +91,8 @@ You will have to make sure that you have all the driver packages installed that 
 sudo apt-get install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa
 
 For h.264 and h.265 export you also need the NVIDIA encode library:
-sudo apt-get install libnvidia-encode1
+    
+    : sudo apt-get install libnvidia-encode1
 
 Also make sure there is only one OpenCL ICD installed. This can be verified by looking in the directory /etc/OpenCL/vendors/. There should be one and only one *.icd file there. For NVIDIA it will usually be called nvidia.icd.
 
@@ -101,13 +112,18 @@ Uninstalling Resolve
 
 To uninstall Resolve you should use the Debian package manager. Do not start deleting directories manually or use the official (un)installer.
 
-Uninstall DaVinci Resolve:
-sudo apt-get remove davinci-resolve
+
+## Uninstall DaVinci Resolve:
+
+    : sudo apt-get remove davinci-resolve
 
 Uninstall DaVinci Resolve Studio:
-sudo apt-get remove davinci-resolve-studio
+
+    : sudo apt-get remove davinci-resolve-studio
+
 Common problems
-MakeResolveDeb reports missing function and stops
+    
+    : MakeResolveDeb reports missing function and stops
 
 If the conversion process stops and gives an error message such as
 Sorry. Need 'xyz' to continue.
@@ -115,7 +131,8 @@ Sorry. Need 'xyz' to continue.
 Then you are missing a required system package to make the conversion. To fix this you just have to install the package mentioned in the error message and re-run the conversion.
 
 For example:
-sudo apt-get install xyz
+    
+    : sudo apt-get install xyz
 
 (where xyz is the name of the missing package)
 Resolve appears to start but only shows a white modal window
@@ -125,15 +142,16 @@ This often happens when the Onboarding feature does not work properly. Generally
 Since MakeResovleDeb 1.5.1 there is an argument that can be provided that excludes the Onboarding feature from the Debian package. When running MakeResolveDeb just add the optional argument --skip-onboarding to create a Resolve Debian package without the Onboarding feature.
 When Resolve doesn't start at all or exits immediately
 
-    Run resolve from a prompt (/opt/resolve/bin/resolve) and check the output for error messages
-    Make sure you have all required libraries installed. Run "ldd /opt/resolve/bin/resolve" and verify that there are no missing libraries (ldd should give no lines with "not found" in them)
-    Log files provide a lot of useful information. Please check for clues. Location differs between Resolve versions.
-    - Resolve 15 and below: /opt/resolve/logs/
-    - Resolve 16 and up: ~/.local/share/DaVinciResolve/logs/
-    Resolve is quite picky when it comes to GPU drivers and versions. Make sure you have working CUDA and OpenCL libraries installed.
-    Segmentation fault on startup or abrupt exit before reaching the project window usually means missing GPU drivers, unsupported GPU driver version or unsupported GPU hardware. Check log files for clues.
+Run resolve from a prompt (/opt/resolve/bin/resolve) and check the output for error messages
+Make sure you have all required libraries installed. Run "ldd /opt/resolve/bin/resolve" and verify that there are no missing libraries (ldd should give no lines with "not found" in them)
+Log files provide a lot of useful information. Please check for clues. Location differs between Resolve versions.
+- Resolve 15 and below: /opt/resolve/logs/
+- Resolve 16 and up: ~/.local/share/DaVinciResolve/logs/
+Resolve is quite picky when it comes to GPU drivers and versions. Make sure you have working CUDA and OpenCL libraries installed.
+Segmentation fault on startup or abrupt exit before reaching the project window usually means missing GPU drivers, unsupported GPU driver version or unsupported GPU hardware. Check log files for clues.
 
-Displaying a rolling Reslove log
+
+## Displaying a rolling Reslove log
 
 Not all errors are visible in the graphical interface. Sometimes it's a good idea to look at the rolling log as Resolve is running to catch error messages. To do this you can open up a terminal window and run the command below.
 tail -F  ~/.local/share/DaVinciResolve/logs/ResolveDebug.txt
@@ -151,15 +169,17 @@ Resolve 20 introduced the Extra downloads feature where Resolve can download com
 
 To fix this you can add a symbolic link that will replicate the RedHat/CentOS/Rocky structure by running the two commands below which will first create the required directory structure and then the symbolic link for the CA file. It's important to create a link here instead of copying the file since this is a file that will be kept up to date by the OS packages.
 
-    sudo mkdir -p /etc/pki/tls/certs/
-    sudo ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
+    : sudo mkdir -p /etc/pki/tls/certs/
+    
+    : sudo ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
 
 MakeResolveDeb intentionally does not include this fix since that would break the Debian concept of packages not touching files they are not responsible for, and could potentially have unpredictable consequences. The appropriate fix has to be incorporated into Resolve to look for this CA file in multiple locations.
 Still having problems?
 
 Check out the threads in the Blackmagic Design Forums using the link below or use my contact form at the bottom of the page.
 
-DaVinci Resolve on Debian Linux (and makeresolvedeb)
+
+## DaVinci Resolve on Debian Linux (and makeresolvedeb)
 
 DaVinci Resolve on Linux - Install issues
 All MakeResolveDeb versions
